@@ -93,7 +93,3 @@ research_agent.py   research pipeline
 apps.csv            the 100 apps
 README.md           this file
 ```
-
-## Deploy the page
-
-Drag the folder containing `index.html` into Netlify Drop, or enable GitHub Pages (Settings, Pages, deploy from `main` / root), or run `npx vercel`. Set `var REPO=""` in the page's script to your repository URL.
