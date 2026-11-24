@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>100-App Toolkit Readiness Study</title><meta name="description" content="Auth, access gate, MCP and buildability for 100 apps, with the research agent and honest verification.">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#fafaf7;--fg:#1c1c1a;--mu:#6b6b66;--cd:#fff;--bd:#e2e2dc;--g:#1d9e75;--y:#d4a017;--r:#d9534f;--ac:#3b5bdb}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161614;--fg:#ecece8;--mu:#9a9a94;--cd:#1f1f1d;--bd:#33332f;--g:#3ec79a;--y:#e8b93a;--r:#f0716d;--ac:#8ea2ff}}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif;max-width:980px;margin:0 auto;padding:20px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:28px 0 8px}.mu{color:var(--mu)}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:10px;padding:14px;margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.bar{display:flex;align-items:center;gap:8px;font-size:13px;margin:3px 0}.bar i{display:block;height:10px;border-radius:5px;background:var(--ac)}
+.w{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:5px 8px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
+.d{display:inline-block;width:10px;height:10px;border-radius:50%}.G{background:var(--g)}.Y{background:var(--y)}.R{background:var(--r)}
+select,button{font:inherit;cursor:pointer;padding:4px 8px;background:var(--cd);color:var(--fg);border:1px solid var(--bd);border-radius:6px}
+pre{background:var(--bd);padding:10px;border-radius:8px;overflow-x:auto;margin:8px 0 0}a{color:var(--ac)}code{background:var(--bd);padding:1px 5px;border-radius:4px;font-size:13px}.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}.flow b{padding:4px 8px;border:1px solid var(--ac);border-radius:6px}
+</style></head><body>
+<h1>Which apps can become agent toolkits today?</h1>
+<p class="mu">100 apps · 10 categories · research pipeline + verification protocol. Machine-readable copy: the <code>#data</code> JSON block in this page. <b>Status: first-pass table; 1 of 100 rows hand-verified so far (see Verification).</b></p>
+
+<h2>Headline patterns (computed live from the table)</h2>
+<div class="grid" id="pat"></div>
+<div class="card" id="take"></div>
+
+<h2>Findings matrix</h2>
+<p>Category <select id="cat"></select> Verdict <select id="ver"><option value="">all</option><option>G</option><option>Y</option><option>R</option></select>
+<span class="mu"> green = build now · amber = build with caveat · red = needs outreach</span></p>
+<div class="w"><table id="t"></table></div>
+<p class="mu">Auth: O OAuth2, K API key, T token, B Basic, X none/unknown. Gate: S self-serve, P paid plan, A approval/review, C contact-sales/partner. MCP: Y vendor-hosted, C community, N none found. Evidence: each row's docs hint domain from the brief; the agent emits deep-link evidence plus verbatim quotes per cell in <code>results.jsonl</code>.</p>
+
+<p><button id="dj">Download JSON</button> <button id="dc">Download CSV</button> <span class="mu">same data as the table, for agents and spreadsheets</span></p>
+<h2>The agent: built for low time and space cost</h2>
+<div class="card flow"><b>1 Probe</b>→<b>2 Trim</b>→<b>3 Cheap LLM</b>→<b>4 Independent verifier</b>→<b>5 Grounding check</b>→<b>6 Human queue</b></div>
+<div class="grid">
+<div class="card"><b>1 Deterministic probes first</b><br>Try <code>/openapi.json</code>, <code>llms.txt</code>, the MCP registry. <code>securitySchemes</code> gives auth with zero LLM tokens. Cost O(|spec|).</div>
+<div class="card"><b>2 Keyword-window trimming</b><br>Pages shrink to ±300 chars around auth, pricing and approval terms, so tokens per page are constant (≤6k chars) and ≤3 pages per app. Total work O(N·K), not O(N·page size).</div>
+<div class="card"><b>3–4 Two models, different roles</b><br>A small model extracts; a larger model answers independently. Disagreement raises a flag.</div>
+<div class="card"><b>5 Evidence-bound cells</b><br>Every answer carries a verbatim quote. A string match against the fetched page rejects invented evidence.</div>
+<div class="card"><b>Concurrency and space</b><br>Semaphore-bounded async (C=12), so wall time ≈ N/C × latency. A disk cache keyed by URL hash makes reruns idempotent; output streams to JSONL, so memory is O(N).</div>
+<div class="card"><b>6 Humans only on flags</b><br>People review disagreements, ungrounded quotes and a stratified sample, not all 100. Composio SDK/MCP slots in as the fetch and search layer.</div>
+</div>
+<p class="mu">Design estimate, not measured: about 100×3×1.5k ≈ 0.45M input tokens for the extraction pass. <b>Limit:</b> the script was not run end-to-end against live docs here, so the table is a first pass from prior knowledge, not the agent's output.</p>
+
+<h2>Proof: run it yourself</h2>
+<div class="card">Source repo: <span id="repo"></span><br>No API key needed. The agent fetches docs, reads OpenAPI and MCP-registry signals, applies keyword rules, and writes <code>results.csv</code> plus a <code>review_queue.csv</code> of rows a human must check.
+<pre><code>pip install httpx
+python research_agent.py --limit 5   # smoke test
+python research_agent.py             # all 100 apps</code></pre></div>
+<h2>Verification (honest)</h2>
+<div class="card">
+<b>Protocol:</b> loop 1 = quote grounding + model disagreement; loop 2 = web or browser re-check of flagged rows; loop 3 = human check of a stratified sample (≥2 per category, over-sampling amber and red). Accuracy is reported per field: auth, gate, MCP, verdict.<br><br>
+<b>Checked so far:</b> Otter AI. The table says OAuth, vendor-hosted MCP, REST gated. A web check found the MCP at <code>mcp.otter.ai/mcp</code> with OAuth and 3 tools, while the public REST API is beta and Enterprise-only. <b>Match.</b> The MCP door is open while the REST door is gated.<br><br>
+<b>Not yet measured:</b> the other 99 rows, so no first-pass to final accuracy figure is claimed. Riskiest cells: <code>fanbasis, Paygent, iPayX, Waterfall.io, Consensus, higgsfield</code> (thin or no public docs) and every MCP cell, since that changes fast.
+</div>
+<script type="application/json" id="data"></script>
+<script>
+var CATS=["CRM & Sales","Support","Comms","Marketing & Ads","Ecommerce","Data & SEO","Dev & Infra","Productivity","Finance","AI & Media"];
+var RAW="Salesforce|O|S|Y|G|;HubSpot|O|S|Y|G|;Pipedrive|O|S|C|G|;Attio|O|S|Y|G|;Twenty|K|S|C|G|;Podio|O|S|N|Y|legacy API;Zoho CRM|O|S|Y|G|;Close|K|S|C|G|;Copper|K|P|N|Y|paid plan;DealCloud|O|C|N|R|tenant-gated;Zendesk|O|S|C|G|;Intercom|O|S|Y|G|;Freshdesk|K|S|C|G|;Front|O|S|Y|G|;Pylon|T|A|N|Y|admin token;LiveAgent|K|P|N|Y|paid plan;Plain|K|S|Y|G|;Help Scout|O|S|Y|G|;Gorgias|O|S|C|G|;Gladly|B|C|N|R|customer-issued creds;Slack|O|S|Y|G|;Twilio|B|S|Y|G|;Zoho Cliq|O|S|N|G|;Lark|O|S|C|G|;Pumble|K|A|N|Y|new API;Discord|T|S|C|G|;Telegram|T|S|C|G|;WhatsApp Business|O|A|C|Y|business verification;Aircall|B|A|N|Y|admin plan;Vonage|K|S|Y|G|;Google Ads|O|A|Y|Y|developer token;Meta Ads|O|A|C|Y|app review;LinkedIn Ads|O|A|N|R|partner program;GoHighLevel|O|P|Y|Y|agency plan;Mailchimp|O|S|C|G|;Klaviyo|K|S|Y|G|;systeme.io|K|S|N|Y|thin API;Pinterest|O|A|N|Y|access review;Threads|O|A|N|Y|app review;SendGrid|K|S|C|G|;Shopify|O|S|Y|G|;WooCommerce|K|S|C|G|;BigCommerce|O|S|C|G|;SF Commerce Cloud|O|C|N|R|tenant-gated;Magento|O|S|C|G|;Squarespace|O|P|N|Y|Commerce plan;Ecwid|O|S|N|G|;Gumroad|O|S|N|G|;Amazon SP-API|O|A|N|R|seller+dev review;fanbasis|X|C|N|R|no public docs found;DataForSEO|B|S|Y|G|;SE Ranking|T|P|Y|Y|paid plan;Ahrefs|T|P|Y|Y|paid plan;MrScraper|T|S|N|G|;Apify|T|S|Y|G|;Firecrawl|K|S|Y|G|;Bright Data|K|S|Y|G|;Sherlock|X|S|C|Y|CLI, not an API;Waterfall.io|X|C|N|R|docs unverified;Clay|K|P|N|Y|limited public API;GitHub|O|S|Y|G|;Vercel|T|S|Y|G|;Netlify|T|S|C|G|;Cloudflare|T|S|Y|G|;Supabase|T|S|Y|G|;Neo4j|B|S|Y|G|;Snowflake|O|S|Y|G|;MongoDB Atlas|O|S|Y|G|;Datadog|K|S|Y|G|;Sentry|T|S|Y|G|;Notion|O|S|Y|G|;Airtable|O|S|C|G|;Linear|O|S|Y|G|;Jira|O|S|Y|G|;Asana|O|S|Y|G|;Monday.com|O|S|Y|G|;ClickUp|O|S|Y|G|;Coda|T|S|C|G|;Smartsheet|O|S|C|G|;Harvest|O|S|N|G|;Stripe|K|S|Y|G|;Plaid|K|A|Y|Y|production approval;Binance|K|S|C|Y|HMAC signing, regional;Paygent|X|C|N|R|merchant account;iPayX|X|C|N|R|docs unverified;QuickBooks|O|S|Y|G|;Xero|O|S|Y|G|;Brex|T|A|N|Y|customer account;Ramp|O|A|N|Y|customer account;PitchBook|K|C|N|R|contract;NotebookLM|O|P|N|Y|Enterprise tier;Otter AI|O|P|Y|G|MCP open, REST Enterprise (verified);Fathom|K|S|C|G|;Consensus|X|C|N|R|no public API;Reducto|K|S|N|G|;Devin|K|P|Y|Y|paid plan;higgsfield|K|S|C|Y|thin docs;Mermaid CLI|X|S|C|Y|local CLI;YouTube Transcript|K|S|N|G|;Grain|K|P|N|Y|paid plan";
+var D=RAW.split(";").map(function(s,i){var a=s.split("|");return{n:i+1,app:a[0],cat:Math.floor(i/10),auth:a[1],gate:a[2],mcp:a[3],v:a[4],note:a[5]}});
+document.getElementById("data").textContent=JSON.stringify(D);
+function cnt(f){var o={};D.forEach(function(d){var k=f(d);o[k]=(o[k]||0)+1});return o}
+function bars(t,o){var h='<div class="card"><b>'+t+'</b>';Object.keys(o).sort(function(a,b){return o[b]-o[a]}).forEach(function(k){h+='<div class="bar"><span style="width:20px">'+k+'</span><i style="width:'+o[k]*1.4+'px"></i>'+o[k]+'</div>'});return h+'</div>'}
+document.getElementById("pat").innerHTML=bars("Auth",cnt(function(d){return d.auth}))+bars("Access gate",cnt(function(d){return d.gate}))+bars("MCP exists",cnt(function(d){return d.mcp}))+bars("Verdict",cnt(function(d){return d.v}));
+var v=cnt(function(d){return d.v}),g=cnt(function(d){return d.gate}),m=D.filter(function(d){return d.mcp!="N"}).length,a=g.A+g.C;
+document.getElementById("take").innerHTML="<b>Plain reading:</b> OAuth2 is the most common auth. "+v.G+" apps are build-now, "+v.Y+" need a caveat (mostly a paid plan or app review) and "+v.R+" need outreach. The main blocker is <b>access, not API quality</b>: "+a+" apps sit behind approval or contact-sales and "+g.P+" behind a paid plan. Dev, infra and productivity tools are the easy wins; ads, marketplaces and fintech need review or partnerships. "+m+" apps already have some MCP, so for them the work is auth and governance, not discovery. <i>First-pass figures; verification pending.</i>";
+var c=document.getElementById("cat");c.innerHTML='<option value="">all</option>'+CATS.map(function(x,i){return'<option value="'+i+'">'+x+'</option>'}).join("");
+function draw(){var cv=c.value,vv=document.getElementById("ver").value,h="<tr><th>#</th><th>App</th><th>Category</th><th>Auth</th><th>Gate</th><th>MCP</th><th>Verdict</th><th>Blocker / note</th></tr>";
+D.forEach(function(d){if((cv===""||d.cat==cv)&&(!vv||d.v==vv))h+="<tr><td>"+d.n+"</td><td>"+d.app+"</td><td>"+CATS[d.cat]+"</td><td>"+d.auth+"</td><td>"+d.gate+"</td><td>"+d.mcp+'</td><td><span class="d '+d.v+'"></span> '+d.v+"</td><td>"+(d.note||"")+"</td></tr>"});document.getElementById("t").innerHTML=h}
+var REPO="";  // EDIT: put your GitHub repo URL here, e.g. "https://github.com/you/toolkit-research"
+document.getElementById("repo").innerHTML=REPO?'<a href="'+REPO+'">'+REPO+'</a>':'<i>(set REPO in this page\'s script)</i>';
+function dl(name,type,text){try{var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:type}));a.download=name;document.body.appendChild(a);a.click();a.remove()}catch(e){}}
+document.getElementById("dj").onclick=function(){dl("toolkit-study.json","application/json",JSON.stringify(D,null,1))};
+document.getElementById("dc").onclick=function(){var q=function(x){return'"'+String(x==null?"":x).replace(/"/g,'""')+'"'};dl("toolkit-study.csv","text/csv",["n,app,category,auth,gate,mcp,verdict,note"].concat(D.map(function(d){return[d.n,d.app,CATS[d.cat],d.auth,d.gate,d.mcp,d.v,d.note].map(q).join(",")})).join("\n"))};
+c.onchange=draw;document.getElementById("ver").onchange=draw;draw();
+</script></body></html>

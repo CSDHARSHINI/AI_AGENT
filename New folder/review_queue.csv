@@ -1,0 +1,73 @@
+﻿app,docs,auth,gate,mcp,verdict,blocker,flags,needs_human
+Salesforce,https://developer.salesforce.com/docs,,unknown,community,R,no docs fetched,no_docs_fetched,True
+HubSpot,https://developers.hubspot.com/docs/api/overview,oauth2;token,unknown,community,Y,,weak_gate_evidence,True
+Attio,https://docs.attio.com,oauth2;token,unknown,community,Y,,weak_gate_evidence,True
+Podio,https://developers.podio.com,api_key,unknown,none,Y,,weak_gate_evidence,True
+Zoho CRM,https://zoho.com/crm/developer/docs/api/v6,,approval,unknown,Y,,mcp_mentioned_not_in_registry;auth_not_found,True
+Close,https://developer.close.com,oauth2;api_key;basic,self_serve,official,G,,weak_gate_evidence,True
+Copper,https://developer.copper.com,oauth2,unknown,community,Y,,weak_gate_evidence,True
+DealCloud,https://api.docs.dealcloud.com,api_key,unknown,unknown,Y,,mcp_mentioned_not_in_registry;weak_gate_evidence,True
+Zendesk,https://developer.zendesk.com/api-reference,oauth2;token,self_serve,community,G,,weak_gate_evidence,True
+Intercom,https://developers.intercom.com,oauth2;token,unknown,community,Y,,weak_gate_evidence,True
+Freshdesk,https://developers.freshdesk.com/api,api_key,self_serve,community,G,,weak_gate_evidence,True
+Pylon,https://docs.usepylon.com,,unknown,official,R,,auth_not_found;weak_gate_evidence,True
+LiveAgent,https://liveagent.com/api,api_key,self_serve,unknown,G,,mcp_mentioned_not_in_registry,True
+Gladly,https://developer.gladly.com,basic;token,self_serve,community,G,,weak_gate_evidence,True
+Twilio,https://twilio.com/docs,,approval,community,Y,,auth_not_found,True
+Zoho Cliq,https://zoho.com/cliq/help/restapi/v2,oauth2;token,unknown,none,Y,,weak_gate_evidence,True
+Lark (Larksuite),https://open.larksuite.com,oauth2;token,unknown,official,Y,,weak_gate_evidence,True
+Pumble,https://pumble.com,api_key;oauth2,contact_sales,unknown,R,,mcp_mentioned_not_in_registry,True
+Discord,https://discord.com/developers/docs,oauth2,self_serve,official,G,,weak_gate_evidence,True
+WhatsApp Business,https://developers.facebook.com/docs/whatsapp,token,contact_sales,unknown,R,,mcp_mentioned_not_in_registry,True
+Aircall,https://developer.aircall.io,,contact_sales,community,R,,auth_not_found,True
+Google Ads,https://developers.google.com/google-ads,,unknown,none,R,no docs fetched,no_docs_fetched,True
+Meta Ads,https://developers.facebook.com/docs/marketing-apis,token,approval,unknown,Y,,mcp_mentioned_not_in_registry,True
+LinkedIn Ads,https://learn.microsoft.com/linkedin/marketing,,self_serve,none,Y,,auth_not_found;weak_gate_evidence,True
+GoHighLevel,https://highlevel.stoplight.io,,unknown,community,R,no docs fetched,no_docs_fetched,True
+Klaviyo,https://developers.klaviyo.com,oauth2;api_key;token,self_serve,community,G,,weak_gate_evidence,True
+systeme.io,https://systeme.io,,self_serve,none,Y,,auth_not_found,True
+Pinterest,https://developers.pinterest.com,,self_serve,official,Y,,auth_not_found,True
+Threads (Meta),https://developers.facebook.com/docs/threads,,unknown,official,R,,auth_not_found;weak_gate_evidence,True
+SendGrid,https://docs.sendgrid.com,api_key,unknown,community,Y,,weak_gate_evidence,True
+Shopify,https://shopify.dev,,unknown,community,R,,auth_not_found;weak_gate_evidence,True
+Salesforce Commerce Cloud,https://developer.salesforce.com/docs/commerce,,unknown,none,R,,auth_not_found;weak_gate_evidence,True
+Magento (Adobe Commerce),https://developer.adobe.com/commerce,,unknown,official,R,,auth_not_found;weak_gate_evidence,True
+Squarespace,https://developers.squarespace.com,,unknown,community,R,,auth_not_found;weak_gate_evidence,True
+Ecwid,https://api-docs.ecwid.com,,unknown,community,R,,auth_not_found;weak_gate_evidence,True
+Gumroad,https://gumroad.com/api,oauth2,unknown,community,Y,,weak_gate_evidence,True
+fanbasis,https://fanbasis.com,,approval,unknown,Y,,mcp_mentioned_not_in_registry;auth_not_found,True
+DataForSEO,https://docs.dataforseo.com,,approval,community,Y,,auth_not_found,True
+SE Ranking,https://seranking.com/api,,unknown,none,R,no docs fetched,no_docs_fetched,True
+MrScraper,https://docs.mrscraper.com,token,unknown,community,Y,,weak_gate_evidence,True
+Apify,https://docs.apify.com,token,unknown,official,Y,,weak_gate_evidence,True
+Bright Data,https://docs.brightdata.com,api_key;token,self_serve,unknown,G,,mcp_mentioned_not_in_registry,True
+Waterfall.io,https://waterfall.io,api_key,unknown,none,Y,,weak_gate_evidence,True
+Clay,https://clay.com,,contact_sales,official,R,,auth_not_found,True
+Netlify,https://docs.netlify.com/api,token;oauth2;api_key,self_serve,official,G,,weak_gate_evidence,True
+Supabase,https://supabase.com/docs,oauth2;api_key,unknown,official,Y,,weak_gate_evidence,True
+Neo4j,https://neo4j.com/docs/api,,self_serve,community,Y,,auth_not_found,True
+Snowflake,https://docs.snowflake.com,,unknown,community,R,,auth_not_found;weak_gate_evidence,True
+MongoDB Atlas,https://mongodb.com/docs/atlas/api,,unknown,unknown,R,,mcp_mentioned_not_in_registry;auth_not_found;weak_gate_evidence,True
+Datadog,https://docs.datadoghq.com/api,oauth2;api_key,self_serve,community,G,,weak_gate_evidence,True
+Sentry,https://docs.sentry.io/api,,self_serve,official,Y,,auth_not_found;weak_gate_evidence,True
+Airtable,https://airtable.com/developers,oauth2,unknown,official,Y,,weak_gate_evidence,True
+Jira,https://developer.atlassian.com,,unknown,community,R,no docs fetched,no_docs_fetched,True
+Monday.com,https://developer.monday.com,oauth2;token,self_serve,unknown,G,,mcp_mentioned_not_in_registry,True
+ClickUp,https://clickup.com/api,oauth2,self_serve,community,G,,weak_gate_evidence,True
+Coda,https://coda.io/developers,token;api_key,unknown,official,Y,,weak_gate_evidence,True
+Smartsheet,https://smartsheet.com/developers,,approval,community,Y,,auth_not_found,True
+Harvest,https://help.getharvest.com/api-v2,,approval,official,Y,,auth_not_found,True
+Binance,https://binance-docs.github.io,,unknown,community,R,no docs fetched,no_docs_fetched,True
+Paygent Connect,,,unknown,none,R,no docs fetched,no_docs_fetched,True
+iPayX,https://ipayx.ai/docs,api_key;token,unknown,community,Y,,weak_gate_evidence,True
+Brex,https://developer.brex.com,,unknown,community,R,,auth_not_found;weak_gate_evidence,True
+PitchBook,https://pitchbook.com,,unknown,none,R,no docs fetched,no_docs_fetched,True
+Otter AI,https://help.otter.ai,,unknown,none,R,no docs fetched,no_docs_fetched,True
+Fathom,https://fathom.video,,contact_sales,official,R,,auth_not_found,True
+Consensus,https://consensus.app,oauth2,unknown,official,Y,,weak_gate_evidence,True
+Reducto,https://reducto.ai,api_key,contact_sales,unknown,R,,mcp_mentioned_not_in_registry,True
+Devin,https://docs.devin.ai,,approval,official,Y,,auth_not_found,True
+higgsfield,https://higgsfield.ai/cli,api_key,unknown,official,Y,,weak_gate_evidence,True
+Mermaid CLI,https://github.com/mermaid-js/mermaid-cli,oauth2;token,approval,unknown,Y,,mcp_mentioned_not_in_registry,True
+YouTube Transcript,https://transcriptapi.com,api_key;oauth2,paid,unknown,Y,,mcp_mentioned_not_in_registry;auth_vs_openapi,True
+Grain,https://grain.com,,contact_sales,official,R,,auth_not_found,True
